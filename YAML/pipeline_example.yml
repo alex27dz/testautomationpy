@@ -1,0 +1,28 @@
+# name of the branch that we are going to use taken from GitHub
+trigger:
+  - main
+
+# type of the VM that is going to execute the test_ scenarios
+pool: windows-latest
+
+# steps plan
+steps:
+  # First step - choosing what python version we are going to use
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: 3.10
+
+  # Second step - Installing required packages for our automation
+  - script: |
+      pip install selenium pytest
+      pip install -r requirements.txt
+      python -m pip install pytest
+      python -m pytest
+    displayName: 'Install Requirements'
+
+  # Third step - test execution
+  - script: | # running the script to execute the test_scenarios full file  
+      pytest -v test_scenarios.py --browser 'chrome'
+    displayName: 'Run tests'
+      
+

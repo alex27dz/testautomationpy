@@ -1,0 +1,18 @@
+# Starter pipeline
+
+# Source code branch name
+trigger:
+  - develop
+
+# Set of tasks to execute jobs
+stages:
+# first stage
+- stage: GeneralTests
+  jobs:               # executing the template below
+  - template: yml_py-pipelines-template.yml
+    parameters:       # passing parameters below to the template
+      testFiles: 'test_JM-scenarios.py'
+      testStack: GeneralTests
+      browser: 'chrome'
+
+

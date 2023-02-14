@@ -1,0 +1,34 @@
+python pipeline automation description
+YAML - is a data serialization language used to create configuration files with any programming language
+
+Pipelines:
+
+1) Main YML - main pipeline configuration
+
+trigger: - source code branch name
+stages: - set of tasks to execute the jobs
+  stage: - first stage to run
+  jobs: - using YML template and parameters
+    -template - template.YML
+     parameters: - passing parameters into template.YML
+      test files: - name of the tests.py
+      testsStack: - General tests group name
+      browser: - chrome
+
+
+2) Template YML -
+
+3) Example YML - not using template
+
+4) runner.py - the Template YML calls the runner file and passing the necessary params
+
+6) Requirements - list of packages to install via pip for our automation run
+
+
+
+
+
+
+
+
+

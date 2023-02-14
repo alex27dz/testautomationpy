@@ -1,0 +1,83 @@
+# parameters for pipeline
+
+parameters:
+  - name: preBuild # name of the parameter
+    type: object  # azure pipline task object
+    default: []  # empty object  # value passed
+
+  - name: postBuild  # name of the parameter
+    type: object  # azure pipline task object
+    default: []   # empty object  # value passed
+
+  - name: testFiles  # name of the parameter
+    type: string
+    default: "**/*.py"  # any file that ending with .py  # value passed
+
+  - name: browser  # name of the parameter
+    type: string
+    default: 'chrome'  # value passed
+    values:
+      - 'chrome'
+      - 'firefox'
+      - 'edge'
+
+  - name: runEnvironment  # name of the parameter
+    type: string
+    default: 'desktop'    # value passed
+    values:
+      - 'desktop'
+      - 'tablet'
+      - 'mobile'
+      - 'browserstack'
+      -
+  - name: testStack   # name of the parameter
+    type: 'string'
+    default: 'All Specs'   # value passed
+
+  - name: jobName    # name of the parameter
+    type: 'string'
+    default: 'RunTests'   # value passed
+
+
+
+# jobs - task grouping used to execute the tests
+jobs:
+- job: ${{ parameters.jobName }}
+  pool:
+    vmImage: windows-latest
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: "3.X"
+      addToPath: true
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements_plugins.txt
+    displayName: 'Install Requirements'
+    
+  - ${{ parameters.preBuild }}
+
+  - script: python runner.py --browser 'chrome' --test_name ${{ parameters.testFiles }} --directory $(Build.StagingDirectory) --report_name ${{ parameters.testStack }} 
+    displayName: 'Run tests'
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    displayName: 'Publish test results /test-results.xml'
+    inputs:
+      testResultsFiles: '$(Build.StagingDirectory)/${{ parameters.testStack }}.xml'
+      testRunTitle: "JUnit Results publishing"
+
+  - task: JakubRumpca.azure-pipelines-html-report.PublishHtmlReport.PublishHtmlReport@1
+    condition: always()
+    displayName: 'Publish HTML Report'
+    inputs:
+      tabName: 'HTML Reports'
+      reportDir: '$(Build.StagingDirectory)/${{ parameters.testStack }}.html'
+  
+  - ${{ parameters.postBuild }}
+    
+  # - template: ResultPublishingTemplate_Devices.yml
+  #  parameters:
+  #    runEnvironment: ${{ parameters.runEnvironment }}
+  #   testStack: ${{ parameters.testStack }}
+  #    testFiles: ${{ parameters.testFiles }}
