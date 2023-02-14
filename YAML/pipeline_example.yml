@@ -3,7 +3,8 @@ trigger:
   - main
 
 # type of the VM that is going to execute the test_ scenarios
-pool: windows-latest
+pool:
+  vmImage: ubuntu-latest
 
 # steps plan
 steps:
