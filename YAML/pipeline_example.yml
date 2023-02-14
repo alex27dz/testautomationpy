@@ -15,7 +15,7 @@ steps:
   # Second step - Installing required packages for our automation
   - script: |
       pip install selenium pytest
-      pip install -r requirements.txt
+      pip install -r YAML/requirements.txt
       python -m pip install pytest
       python -m pytest
     displayName: 'Install Requirements'
