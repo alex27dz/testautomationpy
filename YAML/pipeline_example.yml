@@ -22,7 +22,7 @@ steps:
 
   # Third step - test execution
   - script: | # running the script to execute the test_scenarios full file  
-      pytest -v test_scenarios.py
+      pytest -v Tests/test_scenarios.py
     displayName: 'Run tests'
       
 
