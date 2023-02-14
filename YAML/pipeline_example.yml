@@ -3,15 +3,14 @@ trigger:
   - main
 
 # type of the VM that is going to execute the test_ scenarios
-pool:
-  vmImage: ubuntu-latest
+pool: windows-latest
 
 # steps plan
 steps:
   # First step - choosing what python version we are going to use
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: 3.10
+      versionSpec: 3.x
 
   # Second step - Installing required packages for our automation
   - script: |
