@@ -83,7 +83,6 @@ pycparser==2.21
 pyparsing==3.0.7
 pytest==7.1.1
 python-dateutil==2.8.2
-pyzmq==22.3.0
 randomua==0.0.7
 requests==2.27.1
 requests-file==1.5.1
