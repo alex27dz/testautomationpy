@@ -20,7 +20,7 @@ steps:
       python -m pytest
     displayName: 'Second step/task Install Requirements'
 
-  # Third step - test execution + publishing HTML report of the test results, running the script to execute the test_scenarios full file
+  # Third step - test execution + publishing HTML report of the test results, running the script to execute the test_scenarios full file output the test results in JUnit and HTML format
   - script: |   
       pip install pytest-html
       pytest -v Tests/test_scenarios.py --junitxml=junit/test-results.xml --html=report.html
