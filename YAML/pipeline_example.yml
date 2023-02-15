@@ -1,3 +1,4 @@
+name: Pytest Automation
 # name of the branch that we are going to use taken from GitHub
 trigger:
   - main
