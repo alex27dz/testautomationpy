@@ -27,16 +27,16 @@ steps:
       pytest -v Tests/test_scenarios.py --junitxml=junit/test-results.xml
     displayName: 'Run tests'
 
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: '**/test-results.xml'
-      testRunTitle: 'Pytest tests'
-    displayName: 'Publish test results'
-
   - task: PublishHTML@1
     inputs:
       htmlReportFolder: '$(System.DefaultWorkingDirectory)/htmlcov'
       reportName: 'Pytest test report'
       reportDirectory: 'htmlcov'
     displayName: 'Publish HTML test report'
+    
+      - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/test-results.xml'
+      testRunTitle: 'Pytest tests'
+    displayName: 'Publish test results'
