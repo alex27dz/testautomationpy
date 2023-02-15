@@ -14,6 +14,7 @@ steps:
 
   # Second step - Installing required packages for our automation
   - script: |
+      pip install selenium pytest pytest-xvfb
       pip install selenium pytest
       pip install -r YAML/requirements.txt
       python -m pip install pytest
@@ -21,8 +22,8 @@ steps:
     displayName: 'Second step/task Install Requirements'
 
   # Third step - test execution + publishing HTML report of the test results, running the script to execute the test_scenarios full file output the test results in JUnit and HTML format
-  - script: |   
+  - script: |
       pip install pytest-html
-      pytest -v Tests/test_scenarios.py --junitxml=junit/test-results.xml --html=report.html
+      pytest --xvfb-run -v Tests/test_scenarios.py --junitxml=junit/test-results.xml --html=report.html
     displayName: 'Third step/task - Run tests + Publish HTML test results report'
-      
+
