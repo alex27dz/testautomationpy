@@ -28,7 +28,7 @@ steps:
         mv report.html ${{ github.workspace }}/test_results
     displayName: 'Run tests'
         
-  - name: Publish HTML report
+  - task: Publish HTML report
     uses: actions/upload-artifact@v2
     with:
       name: Test Results
