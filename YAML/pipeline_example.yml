@@ -34,7 +34,7 @@ steps:
       reportDirectory: 'htmlcov'
     displayName: 'Publish HTML test report'
     
-      - task: PublishTestResults@2
+  - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'JUnit'
       testResultsFiles: '**/test-results.xml'
