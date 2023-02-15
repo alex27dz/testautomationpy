@@ -29,14 +29,14 @@ steps:
     displayName: 'Run tests'
 
   # Fourth step - publishing HTML report of the test results
-  - name: Publish test results
+  - task: Publish test results
     uses: dorny/act@v2
     with:
       args: pytest --junitxml=junit/test-results.xml --html=report.html
     displayName: 'Publish HTML test results report'
 
   # Fifth step - uploading the HTML report as an artifact
-  - name: Upload HTML report
+  - task: Upload HTML report
     uses: actions/upload-artifact@v2
     with:
       name: Test Results
