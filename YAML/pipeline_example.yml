@@ -24,6 +24,6 @@ steps:
   # Third step - test execution + publishing HTML report of the test results, running the script to execute the test_scenarios full file output the test results in JUnit and HTML format
   - script: |
       pip install pytest-html
-      pytest --xvfb-run -v Tests/test_scenarios.py --junitxml=junit/test-results.xml --html=report.html
+      pytest --xvfb-run -v --tb=short Tests/test_scenarios.py --junitxml=junit/test-results.xml --html=report.html
     displayName: 'Third step/task - Run tests + Publish HTML test results report'
 
