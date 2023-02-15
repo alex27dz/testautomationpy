@@ -1,42 +1,46 @@
-name: Pytest Automation
-# name of the branch that we are going to use taken from GitHub
+# Example YAML file for running Pytest and publishing HTML test results report
+
+# Trigger the pipeline when changes are made to the 'main' branch
 trigger:
   - main
 
-# type of the VM that is going to execute the test_ scenarios
+# Use a Windows VM to execute the test scenarios
 pool: windows-latest
 
-# steps plan
+# Define the pipeline steps
 steps:
-  # First step - choosing what python version we are going to use
+  # Choose Python 3.x as the Python version
   - task: UsePythonVersion@0
     inputs:
       versionSpec: 3.x
 
-  # Second step - Installing required packages for our automation
+  # Install required packages for the automation
   - script: |
       pip install selenium pytest
       pip install -r YAML/requirements.txt
       python -m pip install pytest
-      python -m pytest
     displayName: 'Install Requirements'
 
-  # Third step - test execution
-  # The second script task runs the Pytest tests and saves the test results in JUnit format in a file named test-results.xml in the junit directory.
-  - script: | # running the script to execute the test_scenarios full file  
+  # Run the tests and output the results in JUnit format
+  - script: |
       pytest -v Tests/test_scenarios.py --junitxml=junit/test-results.xml
-    displayName: 'Run tests'
+    displayName: 'Run Tests'
 
-  # Fourth step - publishing HTML report of the test results
-  - name: Publish test results
-    uses: dorny/act@v2
-    with:
-      args: pytest --junitxml=junit/test-results.xml --html=report.html
-    displayName: 'Publish HTML test results report'
+  # Publish the test results and generate the HTML report
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/junit/test-results.xml'
+      searchFolder: '$(System.DefaultWorkingDirectory)'
+      mergeTestResults: true
+      failTaskOnFailedTests: true
+      testRunTitle: 'Pytest Results'
+    displayName: 'Publish Test Results and Generate HTML Report'
 
-  # Fifth step - uploading the HTML report as an artifact
+  # Upload the HTML report as an artifact
   - name: Upload HTML report
     uses: actions/upload-artifact@v2
     with:
-      name: Test Results
-      path: report.html
+      name: 'HTML Report'
+      path: 'report.html'
+    displayName: 'Upload HTML Report'
