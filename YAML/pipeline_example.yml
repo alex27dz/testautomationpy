@@ -11,7 +11,7 @@ steps:
   - task: UsePythonVersion@0
     inputs:
       versionSpec: 3.x
-  displayName: 'First step/task - Python version'
+    displayName: 'First step/task - Python version'
 
   # Second step - Installing required packages for our automation
   - script: |
@@ -19,11 +19,11 @@ steps:
       pip install -r YAML/requirements.txt
       python -m pip install pytest
       python -m pytest
-  displayName: 'Second step/task Install Requirements'
+    displayName: 'Second step/task Install Requirements'
 
   # Third step - test execution + publishing HTML report of the test results, running the script to execute the test_scenarios full file
   - script: |   
       pip install pytest-html
       pytest -v Tests/test_scenarios.py --junitxml=junit/test-results.xml --html=report.html
-  displayName: 'Third step/task - Run tests + Publish HTML test results report'
+    displayName: 'Third step/task - Run tests + Publish HTML test results report'
       
