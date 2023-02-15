@@ -24,19 +24,12 @@ steps:
   
   # The second script task runs the Pytest tests and saves the test results in JUnit format in a file named test-results.xml in the junit directory.
   - script: | # running the script to execute the test_scenarios full file  
-      pytest -v Tests/test_scenarios.py --junitxml=junit/test-results.xml
+      pytest -v Tests/test_scenarios.py --junitxml=junit/test-results.xml--html=report.html
+        mv report.html ${{ github.workspace }}/test_results
     displayName: 'Run tests'
-
-  - task: PublishHTML@1
-    inputs:
-      htmlReportFolder: '$(System.DefaultWorkingDirectory)/htmlcov'
-      reportName: 'Pytest test report'
-      reportDirectory: 'htmlcov'
-    displayName: 'Publish HTML test report'
-    
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: '**/test-results.xml'
-      testRunTitle: 'Pytest tests'
-    displayName: 'Publish test results'
+        
+  - name: Publish HTML report
+    uses: actions/upload-artifact@v2
+    with:
+      name: Test Results
+      path: ${{ github.workspace }}/test_results
